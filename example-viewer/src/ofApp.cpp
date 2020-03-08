@@ -5,11 +5,9 @@ void ofApp::setup() {
 	panel.setup();
 	panel.add(vive.getParameters());
 	cam.disableMouseInput();
-	cam.setDistance(0.001f);
+	cam.setDistance(0.0001f);
 	cam.lookAt(glm::vec3(0, 0, -1), glm::vec3(0, 1, 0));
 	cam.setNearClip(0.01f);
-	cam.setFov(50);
-	//cam.setFov(60.f);
 	cam.enableMouseInput();
 
 	depthScaler.load("shader/shader");
@@ -44,6 +42,8 @@ void ofApp::draw() {
 	
 	ofViewport(rect.x, rect.y, rect.width, rect.height, true);
 	cam.begin();
+	ofScale(1, 1, -1);
+	ofMultMatrix(glm::inverse(vive.getTransform(0))); // ModelView Projection
 	vive.drawMesh();
 	cam.end();
 	ofPopView();

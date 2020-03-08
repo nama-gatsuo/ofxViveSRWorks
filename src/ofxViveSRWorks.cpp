@@ -49,8 +49,6 @@ namespace ofxViveSRWorks {
 	}
 	void Interface::drawMesh() const {
 		ofPushMatrix();
-		ofScale(1, 1, -1);
-		ofMultMatrix(glm::inverse(rigidReconstruction.getTransform()));
 		rigidReconstruction.getMesh().draw(OF_MESH_WIREFRAME);
 		ofPopMatrix();
 	}
