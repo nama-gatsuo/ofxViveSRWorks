@@ -40,7 +40,7 @@ namespace ofxViveSRWorks {
 		sectorIdList = std::make_unique<int[]>(1000000);
 		sectorVertNum = std::make_unique<int[]>(1000000);
 		sectorIdxNum = std::make_unique<int[]>(1000000);
-		
+
 		const int elemMax = ViveSR::RigidReconstruction::OutputMask::MODEL_CHUNK_IDX + 1;
 		void* ptrs[elemMax]{
 			&frameSeq,	        // sizeof(unsigned int)
@@ -63,7 +63,7 @@ namespace ofxViveSRWorks {
 			&modelChunkNum,     // sizeof(int)
 			&modelChunkIdx,     // sizeof(int)
 		};
-		
+
 		elements.resize(elemMax);
 
 		for (int i = 0; i < elemMax; ++i) {
@@ -81,7 +81,7 @@ namespace ofxViveSRWorks {
 		if (res == ViveSR::Error::WORK) {
 			if (lastNumVerts != numVertices) {
 				lastNumVerts = numVertices;
-				
+
 				mesh.clear();
 				//mesh.getVbo().setVertexData(vertices.get(), 3, numVertices, GL_DYNAMIC_DRAW);
 				for (int i = 0; i < numVertices; i++) {
@@ -89,7 +89,7 @@ namespace ofxViveSRWorks {
 				}
 
 				mesh.addIndices(reinterpret_cast<ofIndexType*>(indices.get()), numIndices);
-				
+
 			}
 		}
 	}
@@ -113,8 +113,8 @@ namespace ofxViveSRWorks {
 				ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::STOP, true);
 				ofLogNotice("ofxViveSRWorks::RigidReconstructionModule") << "Stop Reconstruction";
 			}
-		});
-		
+			});
+
 		group.add(mode.set("Mode", 0, 0, 2));
 		e1 = mode.newListener([&](int&) {
 			std::vector<bool> flags(3);
@@ -138,8 +138,8 @@ namespace ofxViveSRWorks {
 
 			ofLogNotice("ofxViveSRWorks::RigidReconstructionModule") << "ModeName: " << modeName;
 
-		});
+			});
 		mode = 0;
 	}
-	
+
 }

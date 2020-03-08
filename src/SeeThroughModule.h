@@ -52,7 +52,7 @@ namespace ofxViveSRWorks {
 
 		int elemCount;
 		std::vector<ViveSR::MemoryElement> elements;
-		
+
 		std::array<Unit, 2> units;
 
 		ofParameterGroup group;

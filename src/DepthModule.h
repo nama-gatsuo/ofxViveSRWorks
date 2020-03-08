@@ -28,10 +28,9 @@ namespace ofxViveSRWorks {
 		const ofTexture& getDepthTexture() const { return depthTex; }
 		const ofTexture& getColorTexture() const { return colorTex; }
 
-		void createParams();
-		void updateParams();
-
 	private:
+		void createParams();
+
 		int moduleID;
 		struct Unit {
 			std::unique_ptr<uint8_t[]> colorFrame;

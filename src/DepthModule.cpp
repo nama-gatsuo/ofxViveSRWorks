@@ -125,8 +125,4 @@ namespace ofxViveSRWorks {
 		});
 	}
 
-	void DepthModule::updateParams() {
-		
-		
-	}
 }

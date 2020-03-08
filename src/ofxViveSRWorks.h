@@ -16,7 +16,6 @@ namespace ofxViveSRWorks {
 		void update();
 		void exit();
 
-		
 		const ofTexture& getDistortedTexture(int i) const { return seeThrough.getDistortedTexture(i); }
 		const ofTexture& getUndistortedTexture(int i) const { return seeThrough.getUndistortedTexture(i); }
 		const ofTexture& getDepthTexture() const { return depth.getDepthTexture(); }
@@ -27,7 +26,7 @@ namespace ofxViveSRWorks {
 
 		ofParameterGroup& getParameters() { return group; }
 	private:
-		
+
 		SeeThroughModule seeThrough;
 		DepthModule depth;
 		RigidReconstructionModule rigidReconstruction;

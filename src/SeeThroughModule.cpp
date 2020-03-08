@@ -127,7 +127,7 @@ namespace ofxViveSRWorks {
 				distortedTex[0].loadData(units[0].distortedFrame.get(), distortedSize.x, distortedSize.y, glFormat);
 				distortedTex[1].loadData(units[1].distortedFrame.get(), distortedSize.x, distortedSize.y, glFormat);
 			}
-			
+
 		}
 
 	}
