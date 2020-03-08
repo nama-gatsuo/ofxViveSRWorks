@@ -14,4 +14,6 @@ public:
 private:
 	ofxViveSRWorks::Interface vive;
 	ofxPanel panel;
+	ofShader shader;
+	ofEasyCam cam;
 };

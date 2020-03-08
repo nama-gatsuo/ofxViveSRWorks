@@ -1,7 +1,9 @@
 #pragma once
 
+#pragma once
 #include "SeeThroughModule.h"
 #include "DepthModule.h"
+#include "RigidReconstructionModule.h"
 
 namespace ofxViveSRWorks {
 
@@ -17,12 +19,14 @@ namespace ofxViveSRWorks {
 		const ofTexture& getDistortedTexture(int i) const { return seeThrough.getDistortedTexture(i); }
 		const ofTexture& getUndistortedTexture(int i) const { return seeThrough.getUndistortedTexture(i); }
 		const ofTexture& getDepthTexture() const { return depth.getDepthTexture(); }
+		const ofVboMesh& getMesh() const { return rigidReconstruction.getMesh(); }
 
 		ofParameterGroup& getParameters() { return group; }
 	private:
 		
 		SeeThroughModule seeThrough;
 		DepthModule depth;
+		RigidReconstructionModule rigidReconstruction;
 		ofParameterGroup group;
 
 	};

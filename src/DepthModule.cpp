@@ -1,16 +1,19 @@
 #include "DepthModule.h"
+#include "ofPixels.h"
+
+
 namespace ofxViveSRWorks {
 	DepthModule::DepthModule() : elemCount(0) {
 		group.setName("DepthModule");
 		group.add(useDepth.set("useDepth", true));
-		group.add(useColor.set("useColor", true));
+		group.add(useColor.set("useColor", false));
 	}
 	DepthModule::~DepthModule() {
 	}
 	void DepthModule::start() {
 		auto check = [&](int result, const std::string& taskName) {
 			if (result != ViveSR::Error::WORK) {
-				ofLogError(__FUNCTION__) << taskName << ": " << "Failed! (Code: " << result << ")";
+				ofLogError("DepthModule::Start") << taskName << ": " << "Failed! (Code: " << result << ")";
 				stop();
 			}
 		};
@@ -21,10 +24,6 @@ namespace ofxViveSRWorks {
 		);
 		
 		ViveSR_InitialModule(moduleID);
-		/*check(
-			ViveSR_SetParameterBool(moduleID, ViveSR::SeeThrough::Param::DEPTH_UNDISTORT_GPU_TO_CPU_ENABLE, true),
-			"ViveSR_SetParameterBool - DEPTH - DEPTH_UNDISTORT_GPU_TO_CPU_ENABLE"
-		);*/
 
 		check(ViveSR_StartModule(moduleID), "ViveSR_StartModule - DEPTH");
 
@@ -66,7 +65,7 @@ namespace ofxViveSRWorks {
 		// allocate ofTexture
 		colorTex.allocate(size.x, size.y, colorChannel == 3 ? GL_RGB8 : GL_RGBA8);
 		depthTex.allocate(size.x, size.y, GL_R32F);
-		//depthTex.setRGToRGBASwizzles(true);
+		depthTex.setRGToRGBASwizzles(true);
 
 	}
 
@@ -78,7 +77,7 @@ namespace ofxViveSRWorks {
 				colorTex.loadData(unit.colorFrame.get(), size.x, size.y, colorChannel == 3 ? GL_RGB : GL_RGBA);
 			}
 			if (useDepth) {
-				depthTex.loadData(unit.depthFrame.get(), size.x, size.y, GL_R);
+				depthTex.loadData(unit.depthFrame.get(), size.x, size.y, GL_RED);
 			}
 		}
 	}

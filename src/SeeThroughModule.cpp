@@ -109,6 +109,7 @@ namespace ofxViveSRWorks {
 		distortedTex[0].allocate(distortedSize.x, distortedSize.y, glInternalFormat);
 		distortedTex[1].allocate(distortedSize.x, distortedSize.y, glInternalFormat);
 
+		// createParams();
 	}
 
 	void SeeThroughModule::update() {

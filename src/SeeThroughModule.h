@@ -29,6 +29,7 @@ namespace ofxViveSRWorks {
 		const ofTexture& getDistortedTexture(int i) const { return distortedTex[i]; }
 
 	private:
+		// void createParams();
 
 		int moduleID;
 		double cameraParamsSeeThrough[ViveSR::SeeThrough::CAMERA_Param::CAMERA_PARAMS_MAX];

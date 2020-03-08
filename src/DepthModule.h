@@ -54,6 +54,8 @@ namespace ofxViveSRWorks {
 		ofParameterGroup group;
 		ofParameter<bool> useDepth;
 		ofParameter<bool> useColor;
+		ofParameter<int> denoiseMedianFilter;
+		ofParameter<int> denoiseGuidedFilter;
 
 		ofTexture colorTex;
 		ofTexture depthTex;
