@@ -28,6 +28,9 @@ namespace ofxViveSRWorks {
 		const ofTexture& getDepthTexture() const { return depthTex; }
 		const ofTexture& getColorTexture() const { return colorTex; }
 
+		void createParams();
+		void updateParams();
+
 	private:
 		int moduleID;
 		struct Unit {
@@ -56,6 +59,11 @@ namespace ofxViveSRWorks {
 		ofParameter<bool> useColor;
 		ofParameter<int> denoiseMedianFilter;
 		ofParameter<int> denoiseGuidedFilter;
+		ofParameter<double> confidenceThres;
+		ofParameter<bool> enableEdgeEnhance;
+		ofParameter<bool> closeRange;
+
+		ofEventListener e0, e1, e2, e3, e4;
 
 		ofTexture colorTex;
 		ofTexture depthTex;

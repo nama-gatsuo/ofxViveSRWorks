@@ -21,6 +21,8 @@ namespace ofxViveSRWorks {
 		const ofTexture& getDepthTexture() const { return depth.getDepthTexture(); }
 		const ofVboMesh& getMesh() const { return rigidReconstruction.getMesh(); }
 
+		void drawMesh() const;
+
 		ofParameterGroup& getParameters() { return group; }
 	private:
 		

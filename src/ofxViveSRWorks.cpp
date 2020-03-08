@@ -1,4 +1,5 @@
 #include "ofxViveSRWorks.h"
+#include "ofGraphics.h"
 
 namespace ofxViveSRWorks {
 	Interface::Interface() {
@@ -45,5 +46,12 @@ namespace ofxViveSRWorks {
 		rigidReconstruction.stop();
 
 		ofLogNotice(__FUNCTION__) << "Exit.";
+	}
+	void Interface::drawMesh() const {
+		ofPushMatrix();
+		ofScale(1, 1, -1);
+		ofMultMatrix(glm::inverse(rigidReconstruction.getTransform()));
+		rigidReconstruction.getMesh().draw(OF_MESH_WIREFRAME);
+		ofPopMatrix();
 	}
 }

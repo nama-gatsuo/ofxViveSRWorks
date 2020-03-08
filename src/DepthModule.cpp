@@ -7,6 +7,7 @@ namespace ofxViveSRWorks {
 		group.setName("DepthModule");
 		group.add(useDepth.set("useDepth", true));
 		group.add(useColor.set("useColor", false));
+		createParams();
 	}
 	DepthModule::~DepthModule() {
 	}
@@ -89,5 +90,43 @@ namespace ofxViveSRWorks {
 		};
 		check(ViveSR_StopModule(moduleID), "ViveSR_StopModule - DEPTH");
 		// check(ViveSR_ReleaseModule(moduleID), "ViveSR_ReleaseModule - DEPTH");
+	}
+
+	
+	void DepthModule::createParams() {
+		group.add(denoiseMedianFilter.set("DenoiseMedianFilter", 5, 1, 5));
+		e0 = denoiseMedianFilter.newListener([&](int&) {
+			ViveSR_SetParameterInt(moduleID, ViveSR::Depth::Param::DENOISE_MEDIAN_FILTER, denoiseMedianFilter);
+		});
+
+		
+		group.add(denoiseGuidedFilter.set("DenoiseGuidedFilter", 3, 1, 7));
+		e1 = denoiseMedianFilter.newListener([&](int&) {
+			ViveSR_SetParameterInt(moduleID, ViveSR::Depth::Param::DENOISE_GUIDED_FILTER, denoiseGuidedFilter);
+		});
+		
+		group.add(confidenceThres.set("ConfidenceThreshould", 0.05, 0, 1));
+		e2 = confidenceThres.newListener([&](double&) {
+			ViveSR_SetParameterDouble(moduleID, ViveSR::Depth::Param::CONFIDENCE_THRESHOLD, confidenceThres);
+		});
+		
+		group.add(enableEdgeEnhance.set("EnableEdgeEnhance", false));
+		e3 = enableEdgeEnhance.newListener([&](bool&) {
+			ViveSR_SetParameterBool(moduleID, ViveSR::Depth::Cmd::ENABLE_EDGE_ENHANCE, enableEdgeEnhance);
+			return true;
+		});
+
+		group.add(closeRange.set("CloseRangeCase", false));
+		e4 = closeRange.newListener([&](bool&) {
+			ViveSR_SetParameterBool(moduleID, ViveSR::Depth::Cmd::CHANGE_DEPTH_CASE,
+				closeRange ? ViveSR::Depth::DepthCase::CLOSE_RANGE : ViveSR::Depth::DepthCase::DEFAULT
+			);
+			return true;
+		});
+	}
+
+	void DepthModule::updateParams() {
+		
+		
 	}
 }

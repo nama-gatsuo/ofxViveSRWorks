@@ -3,7 +3,7 @@
 namespace ofxViveSRWorks {
 	RigidReconstructionModule::RigidReconstructionModule() : elemCount(0), lastNumVerts(0) {
 		group.setName("RigidReconstructionModule");
-
+		createParams();
 	}
 	RigidReconstructionModule::~RigidReconstructionModule() {
 
@@ -29,7 +29,7 @@ namespace ofxViveSRWorks {
 		);
 
 		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::FULL_POINT_CLOUD_MODE, true);
-		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::START, true);
+		// ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::START, true);
 
 		vertices = std::make_unique<float[]>(8 * 2500000);
 		indices = std::make_unique<int[]>(2500000);
@@ -87,6 +87,9 @@ namespace ofxViveSRWorks {
 				for (int i = 0; i < numVertices; i++) {
 					mesh.addVertex(glm::vec3(vertices[i * 4], vertices[i * 4 + 1], vertices[i * 4 + 2]));
 				}
+
+				mesh.addIndices(reinterpret_cast<ofIndexType*>(indices.get()), numIndices);
+				
 			}
 		}
 	}
@@ -100,14 +103,43 @@ namespace ofxViveSRWorks {
 		// check(ViveSR_ReleaseModule(moduleID), "ViveSR_ReleaseModule - RIGID-RECONSTRUCTION");
 
 	}
-	void RigidReconstructionModule::updateParams() {
+	void RigidReconstructionModule::createParams() {
+		group.add(reconstruction.set("Reconstruction", false));
+		e0 = reconstruction.newListener([&](bool&) {
+			if (reconstruction) {
+				ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::START, true);
+				ofLogNotice("ofxViveSRWorks::RigidReconstructionModule") << "Start Reconstruction";
+			} else {
+				ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::STOP, true);
+				ofLogNotice("ofxViveSRWorks::RigidReconstructionModule") << "Stop Reconstruction";
+			}
+		});
+		
+		group.add(mode.set("Mode", 0, 0, 2));
+		e1 = mode.newListener([&](int&) {
+			std::vector<bool> flags(3);
+			std::string modeName;
+			if (mode == 0) {
+				flags = { true, false, false };
+				modeName = "LITE_POINT_CLOUD";
+				mesh.setMode(OF_PRIMITIVE_POINTS);
+			} else if (mode == 1) {
+				flags = { false, true, false };
+				modeName = "LIVE_ADAPTIVE_MODE";
+				mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+			} else if (mode == 2) {
+				flags = { false, false, true };
+				modeName = "FULL_POINT_CLOUD_MODE";
+				mesh.setMode(OF_PRIMITIVE_POINTS);
+			}
+			ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::LITE_POINT_CLOUD_MODE, flags[0]);
+			ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::LIVE_ADAPTIVE_MODE, flags[1]);
+			ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::FULL_POINT_CLOUD_MODE, flags[2]);
 
+			ofLogNotice("ofxViveSRWorks::RigidReconstructionModule") << "ModeName: " << modeName;
+
+		});
+		mode = 0;
 	}
-	void RigidReconstructionModule::toggle() {
-		if (reconstruction) {
-			ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::START, true);
-		} else {
-			ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::STOP, true);
-		}
-	}
+	
 }

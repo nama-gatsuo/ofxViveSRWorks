@@ -26,8 +26,11 @@ namespace ofxViveSRWorks {
 		int getModuleID() const { return moduleID; }
 		ofParameterGroup& getParameters() { return group; }
         const ofVboMesh& getMesh() const { return mesh; }
+        const glm::mat4& getTransform() const { return glm::transpose(pose); }
 
 	private:
+        void createParams();
+
 		int moduleID;
 
         unsigned int frameSeq;
@@ -55,9 +58,10 @@ namespace ofxViveSRWorks {
 
 		ofParameterGroup group;
 		ofParameter<bool> reconstruction;
+        ofParameter<int> mode;
+        ofEventListener e0, e1, e2, e3;
+
         ofVboMesh mesh;
 
-		void updateParams();
-		void toggle();
 	};
 }
