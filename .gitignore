@@ -27,7 +27,7 @@ xcuserdata/
 *.vcxproj*
 */icon.rc
 *.obj
-*dll
+# *dll
 *.lib
 *.ipdb
 *.iobj
