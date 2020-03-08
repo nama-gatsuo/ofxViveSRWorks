@@ -22,12 +22,14 @@ namespace ofxViveSRWorks {
 		);
 
 		ViveSR_InitialModule(moduleID);
+		mode = 0;
 
 		check(
 			ViveSR_StartModule(moduleID),
 			"ViveSR_StartModule - RIGID-RECONSTRUCTION"
 		);
 
+		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::RESET_RECONSTRUCTION_ENGINE, true);
 		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::FULL_POINT_CLOUD_MODE, true);
 		// ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::START, true);
 
@@ -138,8 +140,8 @@ namespace ofxViveSRWorks {
 
 			ofLogNotice("ofxViveSRWorks::RigidReconstructionModule") << "ModeName: " << modeName;
 
-			});
-		mode = 0;
+		});
+		
 	}
 
 }

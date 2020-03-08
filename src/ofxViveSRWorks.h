@@ -23,6 +23,7 @@ namespace ofxViveSRWorks {
 		const glm::mat4& getTransform(int i) const { return seeThrough.getTransform(i); }
 
 		void drawMesh() const;
+		void drawSeeThrough(int i) { seeThrough.draw(i); }
 
 		ofParameterGroup& getParameters() { return group; }
 	private:

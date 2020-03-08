@@ -1,4 +1,5 @@
 #include "SeeThroughModule.h"
+#include "ofGraphics.h"
 
 namespace ofxViveSRWorks {
 
@@ -141,6 +142,22 @@ namespace ofxViveSRWorks {
 		check(ViveSR_StopModule(moduleID), "ViveSR_StopModule - SEE-THROUGH");
 		// check(ViveSR_ReleaseModule(moduleID), "ViveSR_ReleaseModule - SEE-THROUGH");
 
+	}
+
+	void SeeThroughModule::draw(int i) {
+		ofPushMatrix();
+		ofSetRectMode(OF_RECTMODE_CENTER);
+		ofScale(1, 1, -1);
+		ofMultMatrix(getTransform(i));
+		ofScale(1, -1, 1);
+		ofTranslate(0, 0, 0.1f);
+		float w = getUndistortedTexture(i).getWidth();
+		float h = getUndistortedTexture(i).getHeight();
+
+		getUndistortedTexture(i).draw(0, 0, w * 0.0006, h * 0.0006);
+		ofSetRectMode(OF_RECTMODE_CORNER);
+		ofPopMatrix();
+		//ofLogNotice() << "aa";
 	}
 
 }

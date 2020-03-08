@@ -28,6 +28,7 @@ namespace ofxViveSRWorks {
 		const ofTexture& getUndistortedTexture(int i) const { return undistortedTex[i]; }
 		const ofTexture& getDistortedTexture(int i) const { return distortedTex[i]; }
 		const glm::mat4& getTransform(int i) const { return units[i].pose; }
+		void draw(int i);
 	private:
 		// void createParams();
 
