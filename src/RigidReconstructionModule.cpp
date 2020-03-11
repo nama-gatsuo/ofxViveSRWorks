@@ -24,13 +24,22 @@ namespace ofxViveSRWorks {
 		ViveSR_InitialModule(moduleID);
 		mode = 0;
 
+		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::RESET_RECONSTRUCTION_ENGINE, true);
+		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::ENABLE_FRUSTUM_CULLING, false);
+		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::SCENE_UNDERSTANDING_ENABLE, true);
+		
+		float maxGrid, minGrid;
+		ViveSR_GetParameterFloat(moduleID, ViveSR::RigidReconstruction::Param::ADAPTIVE_MAX_GRID, &maxGrid);
+		ViveSR_GetParameterFloat(moduleID, ViveSR::RigidReconstruction::Param::ADAPTIVE_MIN_GRID, &minGrid);
+
+		ViveSR_SetParameterFloat(moduleID, ViveSR::RigidReconstruction::Param::ADAPTIVE_MAX_GRID, 1.f);
+		ViveSR_SetParameterFloat(moduleID, ViveSR::RigidReconstruction::Param::ADAPTIVE_MIN_GRID, 0.1f);
+		
 		check(
 			ViveSR_StartModule(moduleID),
 			"ViveSR_StartModule - RIGID-RECONSTRUCTION"
 		);
-
-		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::RESET_RECONSTRUCTION_ENGINE, true);
-		ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Param::FULL_POINT_CLOUD_MODE, true);
+		
 		// ViveSR_SetParameterBool(moduleID, ViveSR::RigidReconstruction::Cmd::START, true);
 
 		vertices = std::make_unique<float[]>(8 * 2500000);
@@ -78,6 +87,8 @@ namespace ofxViveSRWorks {
 
 	}
 	void RigidReconstructionModule::update() {
+		if (!reconstruction) return;
+
 		int res = ViveSR::Error::FAILED;
 		res = ViveSR_GetModuleData(moduleID, elements.data(), elemCount);
 		if (res == ViveSR::Error::WORK) {

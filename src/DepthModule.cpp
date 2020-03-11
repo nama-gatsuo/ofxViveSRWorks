@@ -5,7 +5,7 @@
 namespace ofxViveSRWorks {
 	DepthModule::DepthModule() : elemCount(0) {
 		group.setName("DepthModule");
-		group.add(useDepth.set("useDepth", true));
+		group.add(useDepth.set("useDepth", false));
 		group.add(useColor.set("useColor", false));
 		createParams();
 	}

@@ -30,7 +30,7 @@ namespace ofxViveSRWorks {
 
 		check(ViveSR_LinkModule(seeThrough.getModuleID(), depth.getModuleID(), ViveSR::LinkType::ACTIVE), "ViveSR_LinkModule");
 		check(ViveSR_LinkModule(depth.getModuleID(), rigidReconstruction.getModuleID(), ViveSR::LinkType::ACTIVE), "ViveSR_LinkModule");
-
+		
 	}
 
 	void Interface::update() {
@@ -49,6 +49,7 @@ namespace ofxViveSRWorks {
 	}
 	void Interface::drawMesh() const {
 		ofPushMatrix();
+		ofScale(1, 1, -1);
 		rigidReconstruction.getMesh().draw(OF_MESH_WIREFRAME);
 		ofPopMatrix();
 	}

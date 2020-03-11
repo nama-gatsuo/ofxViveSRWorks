@@ -20,7 +20,6 @@ namespace ofxViveSRWorks {
 		const ofTexture& getUndistortedTexture(int i) const { return seeThrough.getUndistortedTexture(i); }
 		const ofTexture& getDepthTexture() const { return depth.getDepthTexture(); }
 		const ofVboMesh& getMesh() const { return rigidReconstruction.getMesh(); }
-		const glm::mat4& getTransform(int i) const { return seeThrough.getTransform(i); }
 
 		void drawMesh() const;
 		void drawSeeThrough(int i) { seeThrough.draw(i); }
