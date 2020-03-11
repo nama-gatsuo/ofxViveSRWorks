@@ -30,7 +30,7 @@ void ofApp::draw() {
 	for (int i = 0; i < 2; i++) {
 		auto& undistorted = vive.getUndistortedTexture(i);
 		undistorted.draw(i * depth.getWidth(), h, depth.getWidth(), depth.getWidth() / undistorted.getWidth() * undistorted.getHeight());
-		ofDrawBitmapStringHighlight("Distorted Eye Camera " + ofToString(i), i * depth.getWidth(), h + 12);
+		ofDrawBitmapStringHighlight("Undistorted Eye Camera " + ofToString(i), i * depth.getWidth(), h + 12);
 	}
 	ofEnableAlphaBlending();
 
