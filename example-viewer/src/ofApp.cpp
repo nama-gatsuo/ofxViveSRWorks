@@ -44,6 +44,7 @@ void ofApp::draw() {
 	cam.begin();
 	ofScale(1, 1, -1);
 	ofMultMatrix(glm::inverse(vive.getTransform(0))); // ModelView Projection
+	ofScale(1, 1, -1);
 	vive.drawMesh();
 	cam.end();
 	ofPopView();

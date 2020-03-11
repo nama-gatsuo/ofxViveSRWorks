@@ -16,6 +16,7 @@ namespace ofxViveSRWorks {
 		void update();
 		void exit();
 
+		const glm::mat4& getTransform(int i) const { return seeThrough.getTransform(i); }
 		const ofTexture& getDistortedTexture(int i) const { return seeThrough.getDistortedTexture(i); }
 		const ofTexture& getUndistortedTexture(int i) const { return seeThrough.getUndistortedTexture(i); }
 		const ofTexture& getDepthTexture() const { return depth.getDepthTexture(); }
