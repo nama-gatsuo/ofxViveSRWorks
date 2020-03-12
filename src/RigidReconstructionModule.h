@@ -26,6 +26,7 @@ namespace ofxViveSRWorks {
 		int getModuleID() const { return moduleID; }
 		ofParameterGroup& getParameters() { return group; }
 		const ofVboMesh& getMesh() const { return mesh; }
+		const ofVboMesh& getPointCloud() const { return pointCloud; }
 		const glm::mat4& getTransform() const { return glm::transpose(pose); }
 
 	private:
@@ -59,9 +60,12 @@ namespace ofxViveSRWorks {
 		ofParameterGroup group;
 		ofParameter<bool> reconstruction;
 		ofParameter<int> mode;
+		ofParameter<float> minGrid, maxGrid;
+		enum Mode { VIEW_CLOUD = 0, VIEW_CLOUD_FULL, RECONSTRUCT_MESH };
 		ofEventListener e0, e1, e2, e3;
 
 		ofVboMesh mesh;
+		ofVboMesh pointCloud;
 
 	};
 }

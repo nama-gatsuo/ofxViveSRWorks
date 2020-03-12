@@ -19,12 +19,8 @@ namespace ofxViveSRWorks {
 
 	void SeeThroughModule::start() {
 
-		check(
-			ViveSR_CreateModule(ViveSR::ModuleType::ENGINE_SEETHROUGH, &moduleID),
-			"ViveSR_CreateModule - SEE-THROUGH"
-		);
-
-		ViveSR_InitialModule(moduleID);
+		check(ViveSR_CreateModule(ViveSR::ModuleType::ENGINE_SEETHROUGH, &moduleID), "ViveSR_CreateModule");
+		check(ViveSR_InitialModule(moduleID), "ViveSR_InitialModule");
 
 		check(ViveSR_SetParameterBool(moduleID, ViveSR::SeeThrough::Param::DISTORT_GPU_TO_CPU_ENABLE, true), "DISTORT_GPU_TO_CPU_ENABLE");
 		check(ViveSR_SetParameterBool(moduleID, ViveSR::SeeThrough::Param::DEPTH_UNDISTORT_GPU_TO_CPU_ENABLE, true), "DEPTH_UNDISTORT_GPU_TO_CPU_ENABLE");
@@ -36,7 +32,7 @@ namespace ofxViveSRWorks {
 
 		// Acquire SRWorks parameters
 		check(ViveSR_GetParameterBool(moduleID, ViveSR::SeeThrough::Param::OUTPUT_4K_READY, &b4kImageReady), "OUTPUT_4K_READY");
-		ofLogNotice(__FUNCTION__) << "4K image: " << (b4kImageReady ? "available" : "not available");
+		ofLogVerbose(__FUNCTION__) << "4K image: " << (b4kImageReady ? "available" : "not available");
 
 		// checkCameraParams();
 
@@ -63,7 +59,7 @@ namespace ofxViveSRWorks {
 		undistortedC[1].y = cameraParamsSeeThrough[21];
 
 		int res = ViveSR_GetParameterDouble(moduleID, ViveSR::SeeThrough::OUTPUT_FPS, &fps);
-		ofLogNotice(__FUNCTION__) << "FPS: " << fps;
+		ofLogVerbose(__FUNCTION__) << "FPS: " << fps;
 
 		ViveSR_GetParameterInt(moduleID, ViveSR::SeeThrough::OUTPUT_DISTORTED_WIDTH, &distortedSize.x);
 		ViveSR_GetParameterInt(moduleID, ViveSR::SeeThrough::OUTPUT_DISTORTED_HEIGHT, &distortedSize.y);

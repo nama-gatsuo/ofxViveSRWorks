@@ -7,6 +7,10 @@ namespace ofxViveSRWorks {
 		group.add(seeThrough.getParameters());
 		group.add(depth.getParameters());
 		group.add(rigidReconstruction.getParameters());
+
+		std::string path = "../../../../../addons/ofxViveSRWorks/shader/";
+		meshShader.load(path + "meshShader");
+		pointShader.load(path + "pointShader");
 	}
 
 	void Interface::init() {
@@ -39,18 +43,45 @@ namespace ofxViveSRWorks {
 		rigidReconstruction.update();
 	}
 
-	void Interface::exit() {
+	void Interface::updateDepthMask(const glm::mat4& eyeTransform) {
+		
+	}
 
+	void Interface::exit() {
 		seeThrough.stop();
 		depth.stop();
 		rigidReconstruction.stop();
 
 		ofLogNotice(__FUNCTION__) << "Exit.";
 	}
-	void Interface::drawMesh() const {
-		ofPushMatrix();
-		ofScale(1, 1, -1);
-		rigidReconstruction.getMesh().draw(OF_MESH_WIREFRAME);
-		ofPopMatrix();
+	void Interface::drawMesh(ofPolyRenderMode mode) const {
+		rigidReconstruction.getMesh().draw(mode);
 	}
+
+	void Interface::applyMask() {
+		/*
+		// Alpha mask by point cloud of real-time sensing
+		// This provides very poor acculacy... That's why I comment-outed
+		glEnable(GL_POINT_SPRITE);
+		glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
+		glEnable(GL_CLIP_DISTANCE0);
+
+		pointShader.begin();
+		pointShader.setUniform1f("depthClip", 1.2f);
+		rigidReconstruction.getPointCloud().draw();
+		pointShader.end();
+
+		glDisable(GL_CLIP_DISTANCE0);
+		glDisable(GL_POINT_SPRITE);
+		glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
+		*/
+
+		meshShader.begin();
+		rigidReconstruction.getMesh().draw();
+		meshShader.end();
+
+	}
+
+	
+
 }

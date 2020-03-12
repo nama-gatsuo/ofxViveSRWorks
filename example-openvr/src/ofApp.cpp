@@ -38,11 +38,11 @@ void ofApp::update(){
 		eyeFbo[i].begin();
 		ofClear(0);
 		vr.applyEyeStencil(vr::Hmd_Eye(i));
-		
 		vr.beginEye(vr::Hmd_Eye(i));
 		{
-			vive.drawSeeThrough(i);
-			drawScene();	
+			vive.drawSeeThrough(i); // Draw see through from the front stereo-camera
+			vive.applyMask(); // Apply alpha masking by reconstructed room mesh 
+			drawScene();
 		}		
 		vr.endEye();
 		eyeFbo[i].end();
@@ -55,7 +55,6 @@ void ofApp::update(){
 
 void ofApp::draw(){
 	
-
 	cam.begin();
 	ofEnableDepthTest();
 	ofScale(200.f);
@@ -65,6 +64,7 @@ void ofApp::draw(){
 		//vive.drawSeeThrough(0);
 		//vive.drawSeeThrough(1);
 		vr.debugDraw();
+		vive.drawMesh(OF_MESH_WIREFRAME);
 	}
 	ofDisableDepthTest();
 	cam.end();
@@ -87,8 +87,28 @@ void ofApp::draw(){
 void ofApp::drawScene() {
 
 	drawGrid();
-	vive.drawMesh();
+	vive.drawMesh(OF_MESH_WIREFRAME);
+	
+	ofPushMatrix();
+	ofTranslate(0, 1.2, 2.0 + sin(ofGetElapsedTimef()) * 0.6);
+	for (int i = 0; i < 24; i++) {
+		ofRotateY(1.f + ofGetElapsedTimef() * 1.f);
+		ofRotateZ(-1.f + ofGetElapsedTimef() * 2.f);
 
+		ofFill();
+		ofSetColor(255);
+		ofDrawBox(glm::vec3(0), 1.f);
+
+		ofNoFill();
+		ofSetColor(0);
+		ofDrawBox(glm::vec3(0), 1.f);
+
+		
+	}
+	ofPopMatrix();
+
+	ofFill();
+	ofSetColor(255);
 	for (auto& c : vr.getControllers()) {
 		c.second->draw();
 	}

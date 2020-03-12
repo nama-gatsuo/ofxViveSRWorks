@@ -15,18 +15,12 @@ namespace ofxViveSRWorks {
 		auto check = [&](int result, const std::string& taskName) {
 			if (result != ViveSR::Error::WORK) {
 				ofLogError("DepthModule::Start") << taskName << ": " << "Failed! (Code: " << result << ")";
-				stop();
 			}
 		};
 
-		check(
-			ViveSR_CreateModule(ViveSR::ModuleType::ENGINE_DEPTH, &moduleID),
-			"ViveSR_CreateModule - DEPTH"
-		);
-		
-		ViveSR_InitialModule(moduleID);
-
-		check(ViveSR_StartModule(moduleID), "ViveSR_StartModule - DEPTH");
+		check(ViveSR_CreateModule(ViveSR::ModuleType::ENGINE_DEPTH, &moduleID), "ViveSR_CreateModule");
+		check(ViveSR_InitialModule(moduleID), "ViveSR_InitialModule");
+		check(ViveSR_StartModule(moduleID), "ViveSR_StartModule");
 
 		ViveSR_GetParameterInt(moduleID, ViveSR::Depth::OUTPUT_WIDTH, &size.x);
 		ViveSR_GetParameterInt(moduleID, ViveSR::Depth::OUTPUT_HEIGHT, &size.y);
@@ -88,7 +82,7 @@ namespace ofxViveSRWorks {
 				ofLogError(__FUNCTION__) << taskName << ": " << "Failed! (Code: " << result << ")";
 			}
 		};
-		check(ViveSR_StopModule(moduleID), "ViveSR_StopModule - DEPTH");
+		check(ViveSR_StopModule(moduleID), "ViveSR_StopModule");
 		// check(ViveSR_ReleaseModule(moduleID), "ViveSR_ReleaseModule - DEPTH");
 	}
 

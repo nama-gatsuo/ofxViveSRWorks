@@ -39,13 +39,12 @@ void ofApp::draw() {
 
 	cam.setControlArea(rect);
 	ofPushView();
-	
 	ofViewport(rect.x, rect.y, rect.width, rect.height, true);
 	cam.begin();
 	ofScale(1, 1, -1);
 	ofMultMatrix(glm::inverse(vive.getTransform(0))); // ModelView Projection
 	ofScale(1, 1, -1);
-	vive.drawMesh();
+	vive.drawMesh(OF_MESH_WIREFRAME);
 	cam.end();
 	ofPopView();
 	ofDrawBitmapStringHighlight("Reconstructed Mesh", depth.getWidth(), 12);
