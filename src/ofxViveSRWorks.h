@@ -13,9 +13,8 @@ namespace ofxViveSRWorks {
 		Interface();
 		~Interface() {}
 
-		void init();
+		void init(bool useMeshReconstruction = true);
 		void update();
-		void updateDepthMask(const glm::mat4& eyeTransform);
 		void exit();
 
 		const glm::mat4& getTransform(int i) const { return seeThrough.getTransform(i); }
@@ -34,6 +33,7 @@ namespace ofxViveSRWorks {
 
 		ofParameterGroup& getParameters() { return group; }
 	private:
+		bool useMeshReconstruction;
 
 		SeeThroughModule seeThrough;
 		DepthModule depth;
